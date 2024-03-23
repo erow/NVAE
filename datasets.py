@@ -18,6 +18,7 @@ import os
 import urllib
 from lmdb_datasets import LMDBDataset
 from thirdparty.lsun import LSUN
+from utils import get_input_size
 
 
 class StackedMNIST(dset.MNIST):
@@ -209,6 +210,15 @@ def get_loaders_eval(dataset, args):
     else:
         raise NotImplementedError
 
+    if args.ms:
+        img_size = get_input_size(args.dataset)
+        compose = train_data.transform.transforms
+        train_data.transform.transforms = [transforms.RandomResizedCrop(img_size, scale=(0.08, 1.0)), 
+                                            transforms.RandomHorizontalFlip(),
+                                            transforms.RandAugment(2, 9)] + compose[1:]
+    print("Transforms: ")
+    print(train_data.transform)
+        
     train_sampler, valid_sampler = None, None
     if args.distributed:
         train_sampler = torch.utils.data.distributed.DistributedSampler(train_data)

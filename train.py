@@ -159,8 +159,8 @@ def train(train_queue, model, cnn_optimizer, grad_scalar, global_step, warmup_it
                 param_group['lr'] = lr
 
         # sync parameters, it may not be necessary
-        if step % 100 == 0:
-            utils.average_params(model.parameters(), args.distributed)
+        # if step % 100 == 0:
+        #     utils.average_params(model.parameters(), args.distributed)
 
         cnn_optimizer.zero_grad()
         with autocast():
@@ -332,11 +332,14 @@ def cleanup():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('encoder decoder examiner')
     # experimental results
+    
     parser.add_argument('--root', type=str, default='/tmp/nasvae/expr',
                         help='location of the results')
     parser.add_argument('--save', type=str, default='exp',
                         help='id used for storing intermediate results')
     # data
+    parser.add_argument('--ms', action='store_true', default=False,
+                        help='This flag enables multi-sampling training.')
     parser.add_argument('--dataset', type=str, default='mnist',
                         choices=['cifar10', 'mnist', 'omniglot', 'celeba_64', 'celeba_256',
                                  'imagenet_32', 'ffhq', 'lsun_bedroom_128', 'stacked_mnist',

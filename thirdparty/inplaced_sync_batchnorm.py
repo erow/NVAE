@@ -18,7 +18,8 @@ import torch
 from torch.nn.modules.batchnorm import _BatchNorm
 import torch.nn.functional as F
 
-from .functions import SyncBatchNorm as sync_batch_norm
+# from .functions import SyncBatchNorm as sync_batch_norm
+from torch.nn.modules._functions import SyncBatchNorm as sync_batch_norm
 from .swish import Swish as swish
 
 

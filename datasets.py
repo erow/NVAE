@@ -213,7 +213,7 @@ def get_loaders_eval(dataset, args):
     if args.ms:
         img_size = get_input_size(args.dataset)
         compose = train_data.transform.transforms
-        train_data.transform.transforms = [transforms.RandomResizedCrop(img_size, scale=(0.08, 1.0)), 
+        train_data.transform.transforms = [transforms.RandomResizedCrop(img_size, scale=(0.4, 1.0)), 
                                             transforms.RandomHorizontalFlip(),
                                             transforms.RandAugment(2, 9)] + compose[1:]
     print("Transforms: ")
